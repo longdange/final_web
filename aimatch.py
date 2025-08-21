@@ -12,7 +12,7 @@ from datetime import date
 device = "cuda" if torch.cuda.is_available() else "cpu"
 st.set_page_config(page_title="강아지 성향 분석 & 관리", page_icon="🐶", layout="centered")
 st.title("🐶 강아지 성향 분석 Streamlit 앱")
-st.markdown("👉 아래에 **비디오(mp4)** 를 업로드하면 DBTI 성향을 분석할 수 있어요.")
+st.markdown("👉 아래에 **비디오(mp4)** 를 업로드하면 PBTI 성향을 분석할 수 있어요.")
 
 # ===== CSV 파일 =====
 CSV_FILE = "dog_list.csv"
@@ -22,7 +22,7 @@ else:
     dog_list_df = pd.DataFrame(columns=[
         "보호소 이름/위치", "입소일", "품종", "나이(개월)", "생년월일",
         "성별", "몸무게(kg)", "건강 상태", "예방접종 기록",
-        "색상/무늬", "중성화 여부", "DBTI 코드", "성향 설명"
+        "색상/무늬", "중성화 여부", "PBTI 코드", "성향 설명"
     ])
 
 if "dog_list" not in st.session_state:
@@ -137,7 +137,7 @@ if uploaded_video:
         code = predict_with_voting(container, repeat=5)
         nickname = nickname_map.get(code, "알 수 없음")
 
-    st.success(f"예측된 DBTI 코드: {code} ({nickname})")
+    st.success(f"예측된 PBTI 코드: {code} ({nickname})")
     st.session_state.predicted_code = code
     st.session_state.predicted_desc = nickname
 
@@ -156,7 +156,7 @@ with st.form("dog_form", clear_on_submit=False):
     vaccination = st.text_area("예방접종 기록")
     color_pattern = st.text_input("색상/무늬")
     neutered = st.selectbox("중성화 여부", ["예", "아니오"])
-    dbti_code = st.text_input("DBTI 코드", value=st.session_state.predicted_code)
+    dbti_code = st.text_input("PBTI 코드", value=st.session_state.predicted_code)
     dbti_desc = st.text_input("성향 설명", value=st.session_state.predicted_desc)
 
     if st.form_submit_button("➕ 추가하기"):
@@ -201,3 +201,4 @@ st.subheader("📥 다운로드")
 csv_buffer = io.BytesIO()
 filtered_df.to_csv(csv_buffer, index=False, encoding="utf-8-sig")
 st.download_button("CSV 다운로드", data=csv_buffer.getvalue(), file_name="dog_list_filtered.csv", mime="text/csv")
+
