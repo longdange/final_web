@@ -11,7 +11,7 @@ from datetime import date
 # ===== 기본 설정 =====
 device = "cuda" if torch.cuda.is_available() else "cpu"
 st.set_page_config(page_title="강아지 성향 분석 & 관리", page_icon="🐶", layout="centered")
-st.title("🐶 강아지 성향 분석 Streamlit 앱")
+st.title("🐶보호소 관리자 페이지")
 st.markdown("👉 아래에 **비디오(mp4)** 를 업로드하면 PBTI 성향을 분석할 수 있어요.")
 
 # ===== CSV 파일 =====
@@ -201,4 +201,5 @@ st.subheader("📥 다운로드")
 csv_buffer = io.BytesIO()
 filtered_df.to_csv(csv_buffer, index=False, encoding="utf-8-sig")
 st.download_button("CSV 다운로드", data=csv_buffer.getvalue(), file_name="dog_list_filtered.csv", mime="text/csv")
+
 
